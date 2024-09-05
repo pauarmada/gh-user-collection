@@ -3,11 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		BF48F46D2C887FCB00F554E8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF48F46C2C887FCB00F554E8 /* ContentView.swift */; };
+		BF48F4752C88930C00F554E8 /* ArkanaKeys in Frameworks */ = {isa = PBXBuildFile; productRef = BF48F4742C88930C00F554E8 /* ArkanaKeys */; };
 		BFA4BB992C887C14006B123A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFA4BB912C887C13006B123A /* Preview Assets.xcassets */; };
 		BFA4BB9A2C887C14006B123A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFA4BB932C887C13006B123A /* Assets.xcassets */; };
 		BFCB32DE2C88799C00245FF2 /* GhUserCollectionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCB32DD2C88799C00245FF2 /* GhUserCollectionApp.swift */; };
@@ -35,6 +36,7 @@
 
 /* Begin PBXFileReference section */
 		BF48F46C2C887FCB00F554E8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		BF48F4712C888D9B00F554E8 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		BFA4BB912C887C13006B123A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		BFA4BB932C887C13006B123A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BFCB32DA2C88799C00245FF2 /* GhUserCollection.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GhUserCollection.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -51,6 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF48F4752C88930C00F554E8 /* ArkanaKeys in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,6 +120,7 @@
 				BFCB32DC2C88799C00245FF2 /* GhUserCollection */,
 				BFCB32ED2C88799D00245FF2 /* GhUserCollectionTests */,
 				BFCB32F72C88799D00245FF2 /* GhUserCollectionUITests */,
+				BF48F4712C888D9B00F554E8 /* README.md */,
 				BFCB32DB2C88799C00245FF2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -175,6 +179,9 @@
 			dependencies = (
 			);
 			name = GhUserCollection;
+			packageProductDependencies = (
+				BF48F4742C88930C00F554E8 /* ArkanaKeys */,
+			);
 			productName = GhUserCollection;
 			productReference = BFCB32DA2C88799C00245FF2 /* GhUserCollection.app */;
 			productType = "com.apple.product-type.application";
@@ -247,6 +254,9 @@
 				Base,
 			);
 			mainGroup = BFCB32D12C88799C00245FF2;
+			packageReferences = (
+				BF48F4732C88930C00F554E8 /* XCLocalSwiftPackageReference "ArkanaKeys/ArkanaKeys" */,
+			);
 			productRefGroup = BFCB32DB2C88799C00245FF2 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -620,6 +630,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		BF48F4732C88930C00F554E8 /* XCLocalSwiftPackageReference "ArkanaKeys/ArkanaKeys" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ArkanaKeys/ArkanaKeys;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BF48F4742C88930C00F554E8 /* ArkanaKeys */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ArkanaKeys;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BFCB32D22C88799C00245FF2 /* Project object */;
 }
