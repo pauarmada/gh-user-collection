@@ -21,8 +21,7 @@ struct UserProfileView: View {
                 // Display the list of repositories if not empty
                 case .some(let repositories) where !repositories.isEmpty:
                     ForEach(repositories, id: \.id) { repository in
-                        // TODO: Show repository view
-                        NavigationLink(destination: EmptyView()) {
+                        NavigationLink(destination: WebView(url: repository.htmlUrl, navigationTitle: repository.name)) {
                             repositoryRow(repository)
                         }
                     }
