@@ -17,6 +17,8 @@
 		BF1DA8342C8AF9AD00F32F34 /* DependencyGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1DA8332C8AF9AD00F32F34 /* DependencyGraph.swift */; };
 		BF1DA8362C8AF9B700F32F34 /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1DA8352C8AF9B700F32F34 /* ApiClient.swift */; };
 		BF1DA8392C8AFBFD00F32F34 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = BF1DA8382C8AFBFD00F32F34 /* Kingfisher */; };
+		BF1DA83B2C8B099400F32F34 /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1DA83A2C8B099400F32F34 /* UserProfileView.swift */; };
+		BF1DA83D2C8B09A100F32F34 /* UserProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1DA83C2C8B09A100F32F34 /* UserProfileViewModel.swift */; };
 		BF48F46D2C887FCB00F554E8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF48F46C2C887FCB00F554E8 /* ContentView.swift */; };
 		BF48F4752C88930C00F554E8 /* ArkanaKeys in Frameworks */ = {isa = PBXBuildFile; productRef = BF48F4742C88930C00F554E8 /* ArkanaKeys */; };
 		BFA4BB992C887C14006B123A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFA4BB912C887C13006B123A /* Preview Assets.xcassets */; };
@@ -52,6 +54,8 @@
 		BF1DA8302C8AF97500F32F34 /* UsersListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersListViewModel.swift; sourceTree = "<group>"; };
 		BF1DA8332C8AF9AD00F32F34 /* DependencyGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyGraph.swift; sourceTree = "<group>"; };
 		BF1DA8352C8AF9B700F32F34 /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
+		BF1DA83A2C8B099400F32F34 /* UserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
+		BF1DA83C2C8B09A100F32F34 /* UserProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewModel.swift; sourceTree = "<group>"; };
 		BF48F46C2C887FCB00F554E8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		BF48F4712C888D9B00F554E8 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		BFA4BB912C887C13006B123A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -149,6 +153,8 @@
 				BF48F46C2C887FCB00F554E8 /* ContentView.swift */,
 				BF1DA82E2C8AF96600F32F34 /* UsersListView.swift */,
 				BF1DA8302C8AF97500F32F34 /* UsersListViewModel.swift */,
+				BF1DA83A2C8B099400F32F34 /* UserProfileView.swift */,
+				BF1DA83C2C8B09A100F32F34 /* UserProfileViewModel.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -353,11 +359,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF0FB7F92C89FFB300A4F87C /* GithubModels.swift in Sources */,
+				BF1DA83B2C8B099400F32F34 /* UserProfileView.swift in Sources */,
 				BF1DA8312C8AF97500F32F34 /* UsersListViewModel.swift in Sources */,
 				BF1DA8342C8AF9AD00F32F34 /* DependencyGraph.swift in Sources */,
 				BF1DA8362C8AF9B700F32F34 /* ApiClient.swift in Sources */,
 				BFCB32DE2C88799C00245FF2 /* GhUserCollectionApp.swift in Sources */,
 				BF1DA82F2C8AF96600F32F34 /* UsersListView.swift in Sources */,
+				BF1DA83D2C8B09A100F32F34 /* UserProfileViewModel.swift in Sources */,
 				BF48F46D2C887FCB00F554E8 /* ContentView.swift in Sources */,
 				BF0FB7FB2C89FFC100A4F87C /* GithubClient.swift in Sources */,
 			);

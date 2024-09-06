@@ -17,6 +17,7 @@ struct ContentView: View {
         NavigationStack {
             UsersListView(viewModel: viewModel)
         }
+        .environmentObject(dependencyGraph)
     }
 }
 
