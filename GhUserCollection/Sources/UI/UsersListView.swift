@@ -11,41 +11,74 @@ import SwiftUI
 struct UsersListView: View {
     @ObservedObject var viewModel: UsersListViewModel
     
+    @State var searchText = ""
+    @State var isSearchPresented = false
+    
     var body: some View {
         List {
-            ForEach(viewModel.users, id: \.id) { user in
-                userRow(user)
-            }
-            
-            switch viewModel.state {
-            case .complete:
-                EmptyView()
-            case .loading, .hasMore:
-                ProgressView()
-                    .id(UUID())
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .onAppear {
-                        if viewModel.state == .hasMore {
+            if isSearchPresented {
+                // Instead of using the search text as a filter
+                // we use it to actually find a specific user
+                if viewModel.isSearching {
+                    ProgressView()
+                        .id(UUID())
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else if let user = viewModel.searchedUser {
+                    userRow(user)
+                } else {
+                    let text = searchText.isEmpty ? "Start typing to search" : "Not found"
+                    let color = searchText.isEmpty ? Color.gray : Color.red
+                    Text(text)
+                        .italic()
+                        .font(.footnote)
+                        .foregroundStyle(color)
+                        .frame(maxWidth: .infinity)
+                        .listRowSeparator(.hidden)
+                }
+            } else {
+                ForEach(viewModel.users, id: \.id) { user in
+                    userRow(user)
+                }
+                
+                switch viewModel.state {
+                case .complete:
+                    EmptyView()
+                case .loading, .hasMore:
+                    ProgressView()
+                        .id(UUID())
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .onAppear {
+                            if viewModel.state == .hasMore {
+                                Task {
+                                    await viewModel.fetchMore()
+                                }
+                            }
+                        }
+                case .error:
+                    Text("An error occured (Tap to retry)")
+                        .frame(maxWidth: .infinity)
+                        .font(.callout)
+                        .foregroundStyle(Color.red)
+                        .onTapGesture {
                             Task {
                                 await viewModel.fetchMore()
                             }
                         }
-                    }
-            case .error:
-                Text("An error occured (Tap to retry)")
-                    .frame(maxWidth: .infinity)
-                    .font(.callout)
-                    .foregroundStyle(Color.red)
-                    .onTapGesture {
-                        Task {
-                            await viewModel.fetchMore()
-                        }
-                    }
+                }
             }
         }
         .listStyle(.inset)
         .navigationTitle("Github Users")
         .animation(.default, value: UUID())
+        
+        .searchable(text: $searchText, isPresented: $isSearchPresented)
+        .disableAutocorrection(true)
+        .textInputAutocapitalization(.never)
+        .keyboardType(.emailAddress)
+        .onChange(of: searchText) { _, newValue in
+            viewModel.search(searchText: newValue)
+        }
+
     }
     
     @ViewBuilder
@@ -118,7 +151,18 @@ struct UsersListView_Previews: PreviewProvider {
         }
         
         func getUserInfo(login: String) async throws -> GithubUserInfo {
-            throw MockError.unknown
+            if login == "test" {
+                return GithubUserInfo(
+                    id: Int64(0),
+                    login: "test",
+                    avatarUrl: URL(string: "https://httpbin.org/image/png")!,
+                    name: "Test User",
+                    followers: 0,
+                    following: 0
+                )
+            } else {
+                throw MockError.unknown
+            }
         }
     }
     

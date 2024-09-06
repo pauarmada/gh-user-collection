@@ -5,6 +5,7 @@
 //  Created by Paulus Armada on 2024/09/06.
 //
 
+import Combine
 import Foundation
 
 enum UsersListState {
@@ -20,6 +21,12 @@ class UsersListViewModel: ObservableObject {
     @Published var users: [GithubUser] = []
     @Published var state: UsersListState = .loading
     
+    @Published var isSearching = false
+    @Published var searchedUser: GithubUser?
+    
+    private var searchTextSubject = PassthroughSubject<String, Never>()
+    private var cancellables = Set<AnyCancellable>()
+    
     init(apiClient: ApiClient) {
         self.apiClient = apiClient
         
@@ -27,6 +34,17 @@ class UsersListViewModel: ObservableObject {
         Task {
             await reload()
         }
+        
+        // Debounce user input to minimize network calls
+        searchTextSubject
+            .debounce(for: 1.0, scheduler: RunLoop.main)
+            .sink { [weak self] searchText in
+                Task {
+                    // Perform search
+                    await self?.performSearch(searchText: searchText)
+                }
+            }
+            .store(in: &cancellables)
     }
     
     func reload() async {
@@ -35,6 +53,21 @@ class UsersListViewModel: ObservableObject {
     
     func fetchMore() async {
         await fetch(since: users.last?.id ?? 0)
+    }
+    
+    func search(searchText: String) {
+        isSearching = true
+        searchedUser = nil
+        searchTextSubject.send(searchText)
+    }
+    
+    private func performSearch(searchText: String) async {
+        if let userInfo = try? await apiClient.getUserInfo(login: searchText) {
+            searchedUser = GithubUser(id: userInfo.id, login: userInfo.login, avatarUrl: userInfo.avatarUrl)
+        }
+        
+        // Reset the searching flag
+        isSearching = false
     }
     
     private func fetch(since: Int64) async {
