@@ -10,6 +10,7 @@ import SwiftUI
 
 struct UsersListView: View {
     @ObservedObject var viewModel: UsersListViewModel
+    @EnvironmentObject var dependencyGraph: DependencyGraph
     
     @State var searchText = ""
     @State var isSearchPresented = false
@@ -83,8 +84,8 @@ struct UsersListView: View {
     
     @ViewBuilder
     func userRow(_ user: GithubUser) -> some View {
-        // TODO: Change destination
-        NavigationLink(destination: EmptyView()) {
+        let viewModel = UserProfileViewModel(user: user, apiClient: dependencyGraph.apiClient)
+        NavigationLink(destination: UserProfileView(viewModel: viewModel)) {
             HStack(alignment: .center, spacing: 12) {
                 // ・User's avatar image
                 KFImage.url(user.avatarUrl)
@@ -168,14 +169,14 @@ struct UsersListView_Previews: PreviewProvider {
     
     @ViewBuilder
     static func create(failOnFirst: Bool, colorScheme: ColorScheme) -> some View {
+        let apiClient = MockApiClient(failOnFirst: failOnFirst)
         NavigationStack {
             UsersListView(
-                viewModel: UsersListViewModel(
-                    apiClient: MockApiClient(failOnFirst: failOnFirst)
-                )
+                viewModel: UsersListViewModel(apiClient: apiClient)
             )
         }
         .preferredColorScheme(colorScheme)
+        .environmentObject(DependencyGraph(apiClient: apiClient))
         .previewDisplayName("failOnFirst:\(failOnFirst); colorScheme:\(colorScheme)")
     }
     
