@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject private var dependencyGraph = DependencyGraph.default
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        let viewModel = UsersListViewModel(
+            apiClient: dependencyGraph.apiClient
+        )
+        NavigationStack {
+            UsersListView(viewModel: viewModel)
         }
-        .padding()
     }
 }
 

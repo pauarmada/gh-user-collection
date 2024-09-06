@@ -9,7 +9,7 @@ import Alamofire
 import ArkanaKeys
 import Foundation
 
-class GithubClient {
+class GithubClient: ApiClient {
     private let baseUrl: String
     private let headers: HTTPHeaders
     
@@ -32,7 +32,7 @@ class GithubClient {
     }
     
     // https://docs.github.com/en/rest/users/users?apiVersion=2022-11-28#list-users
-    func getUsers(since: Int64 = 0, perPage: Int = 100) async throws -> [GithubUser] {
+    func getUsers(since: Int64, perPage: Int) async throws -> [GithubUser] {
         try await get("\(baseUrl)/users?per_page=\(perPage)&since=\(since)")
     }
     
