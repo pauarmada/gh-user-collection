@@ -28,6 +28,8 @@ struct GithubUser: Decodable, Equatable {
  */
 struct GithubUserInfo: Decodable {
     let id: Int64
+    let login: String
+    let avatarUrl: URL
     let name: String
     let followers: Int
     let following: Int

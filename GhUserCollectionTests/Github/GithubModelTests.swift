@@ -48,7 +48,9 @@ final class GithubModelsTests: XCTestCase {
     func test_decode_userInfo() throws {
         let jsonString = """
         {
+          "login": "octocat",
           "id": 1,
+          "avatar_url": "https://github.com/images/error/octocat_happy.gif",
           "name": "monalisa octocat",
           "followers": 20,
           "following": 0
@@ -57,6 +59,8 @@ final class GithubModelsTests: XCTestCase {
         let userInfo = try decoder.decode(GithubUserInfo.self, from: response(jsonString: jsonString))
         
         XCTAssertEqual(userInfo.id, 1)
+        XCTAssertEqual(userInfo.login, "octocat")
+        XCTAssertEqual(userInfo.avatarUrl, URL(string: "https://github.com/images/error/octocat_happy.gif"))
         XCTAssertEqual(userInfo.name, "monalisa octocat")
         XCTAssertEqual(userInfo.followers, 20)
         XCTAssertEqual(userInfo.following, 0)
