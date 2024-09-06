@@ -20,7 +20,7 @@ final class GithubClientTests: XCTestCase {
     
     func test_invalidAccessToken() async {
         do {
-            _ = try await client(customAccessToken: "this_dont_work").getUsers(perPage: 1)
+            _ = try await client(customAccessToken: "this_dont_work").getUsers(since: 0, perPage: 1)
             XCTFail("Should not succeed")
         } catch {
             // No-Op
