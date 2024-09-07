@@ -13,6 +13,8 @@ struct UserProfileView: View {
     @Environment(\.dismiss) var dismiss
     @State var isAlertPresented = false
     
+    private let githubColors = GithubColors()
+    
     var body: some View {
         List {
             Section {
@@ -126,16 +128,28 @@ struct UserProfileView: View {
                     .padding(.top, 2)
             }
             
-            HStack(spacing: 8) {
+            HStack(spacing: 4) {
                 // ・Programming language used (Displayed only when available)
                 if let language = repository.language {
+                    if let hex = githubColors.hex(forKey: language),
+                       let color = Color.from(hex: hex) {
+                        Text("⚫︎")
+                            .font(.footnote)
+                            .foregroundStyle(color)
+                    }
+                    
                     Text(language)
                         .font(.footnote)
+                        .padding(.trailing, 8)
                 }
                 
                 // ・Number of stars (Displayed only when not 0)
                 if repository.stargazersCount > 0 {
-                    Text("⭐ \(repository.stargazersCount)")
+                     Text("★")
+                         .font(.footnote)
+                         .foregroundStyle(Color.yellow)
+                    
+                    Text("\(repository.stargazersCount)")
                         .font(.footnote)
                 }
             }
@@ -217,7 +231,7 @@ struct UserProfileView_Previews: PreviewProvider {
                         name: "repository3",
                         description: "language:Swift stars:40",
                         fork: false,
-                        language: "Swift",
+                        language: "kotlin",
                         stargazersCount: 40,
                         htmlUrl: URL(string: "https://www.google.com")!
                     ),
