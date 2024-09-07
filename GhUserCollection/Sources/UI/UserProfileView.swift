@@ -13,12 +13,25 @@ struct UserProfileView: View {
     @Environment(\.dismiss) var dismiss
     @State var isAlertPresented = false
     
+    @State var searchText = ""
+    @State var isSearchPresented = false
+    
     private let githubColors = GithubColors()
     
     var body: some View {
         List {
             Section {
-                switch viewModel.repositories {
+                let repositories = viewModel.repositories?.filter {
+                    // Filter the list only if the search is presented
+                    // and the user started typing
+                    if isSearchPresented && !searchText.isEmpty {
+                        $0.name.lowercased().contains(searchText.lowercased())
+                    } else {
+                        true
+                    }
+                }
+                
+                switch repositories {
                 
                 // Display the list of repositories if not empty
                 case .some(let repositories) where !repositories.isEmpty:
@@ -43,46 +56,50 @@ struct UserProfileView: View {
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
             } header: {
-                // Make the info section a header so we can make it freeze on top
-                HStack(alignment: .center, spacing: 16) {
-                    //  ・Avatar image
-                    KFImage.url(viewModel.user.avatarUrl)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 120, height: 120)
-                    
+                if isSearchPresented {
+                    EmptyView()
+                } else {
+                    // Make the info section a header so we can make it freeze on top
+                    HStack(alignment: .center, spacing: 16) {
+                        //  ・Avatar image
+                        KFImage.url(viewModel.user.avatarUrl)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 120, height: 120)
+                        
                         // Make a nice circle with a frame
-                        .clipShape(Circle())
-                        .overlay(content: {
-                            Circle()
-                                .stroke(Color.gray, lineWidth: 1)
-                        })
-                    
-                    if let userInfo = viewModel.userInfo {
-                        VStack(alignment: .leading) {
-                            // ・Full name
-                            Text(userInfo.name)
-                                .font(.title2)
-                                .foregroundStyle(Color.primary)
-                                .padding(.bottom, 8)
-                            
-                            // ・Number of followers
-                            Text("Followers: \(userInfo.followers)")
-                                .font(.footnote)
-                                .foregroundStyle(Color.primary)
-                            
-                            // ・Number of followings
-                            Text("Following: \(userInfo.following)")
-                                .font(.footnote)
-                                .foregroundStyle(Color.primary)
+                            .clipShape(Circle())
+                            .overlay(content: {
+                                Circle()
+                                    .stroke(Color.gray, lineWidth: 1)
+                            })
+                        
+                        if let userInfo = viewModel.userInfo {
+                            VStack(alignment: .leading) {
+                                // ・Full name
+                                Text(userInfo.name)
+                                    .font(.title2)
+                                    .foregroundStyle(Color.primary)
+                                    .padding(.bottom, 8)
+                                
+                                // ・Number of followers
+                                Text("Followers: \(userInfo.followers)")
+                                    .font(.footnote)
+                                    .foregroundStyle(Color.primary)
+                                
+                                // ・Number of followings
+                                Text("Following: \(userInfo.following)")
+                                    .font(.footnote)
+                                    .foregroundStyle(Color.primary)
+                            }
+                        } else {
+                            // Show a progress view when it is still pulling data
+                            ProgressView()
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
                         }
-                    } else {
-                        // Show a progress view when it is still pulling data
-                        ProgressView()
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
+                    .padding([.top, .bottom], 16)
                 }
-                .padding([.top, .bottom], 16)
             }
         }
         .listStyle(.inset)
@@ -98,6 +115,11 @@ struct UserProfileView: View {
         
         // ・Username
         .navigationTitle(viewModel.user.login)
+        
+        // Allow filtering repositories by name
+        .searchable(text: $searchText, isPresented: $isSearchPresented)
+        .disableAutocorrection(true)
+        .textInputAutocapitalization(.never)
         
         // Show an alert that dismiss the screen when fetching fails
         .alert(isPresented: $isAlertPresented) {

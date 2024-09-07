@@ -75,7 +75,6 @@ struct UsersListView: View {
         .searchable(text: $searchText, isPresented: $isSearchPresented)
         .disableAutocorrection(true)
         .textInputAutocapitalization(.never)
-        .keyboardType(.emailAddress)
         .onChange(of: searchText) { _, newValue in
             viewModel.search(searchText: newValue)
         }
